@@ -1,13 +1,16 @@
 const router = require("express").Router();
+const path = require("path")
 
 // Html page for listing all record
-router.get("/users", (req, res) => {
+router.get("/notes", (req, res) => {
   // res.sendfile("path to file")
+  res.sendFile(path.join(__dirname, '../public/notes.html'));
 })
 
 // Html page for a single record
-router.get("/user", (req, res) => {
+router.get("*", (req, res) => {
   // res.sendfile("path to file")
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
 module.exports = router;

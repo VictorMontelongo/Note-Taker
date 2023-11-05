@@ -1,37 +1,30 @@
 const router = require("express").Router();
+const { isUtf8 } = require("buffer");
 const Model = require("../../db/User")
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
-// using Model at the top instead of User to only change one line of code
 
 
-// get all records
-router.get("/", async (req, res) => {
+// Get one note 
+router.get("/api/notes", async (req, res) => {
   try {
-    const payload = await Model.findAll();
+    const payload = await JSON.parse(fs.readFileSync("db/db.json", "utf8"));
     res.status(200).json({ status: "nice", payload })
   } catch (err) {
     res.status(500).json({ status: "error", payload: err.message })
   }
 })
-// Get one record by pk
-router.get("/:id", async (req, res) => {
-  try {
-    const payload = await Model.findbyPk(req.params.id);
-    res.status(200).json({ status: "nice", payload })
-  } catch (err) {
-    res.status(500).json({ status: "error", payload: err.message })
-  }
-})
-// Creating a new record
+// Creating a new note
 router.post("/", async (req, res) => {
   try {
-    const payload = await Model.create(req.body);
+    const payload = await res.sendFile(path.join(__dirname, '../public/index.html'));;
     res.status(200).json({ status: "nice", payload })
   } catch (err) {
     res.status(500).json({ status: "error", payload: err.message })
   }
 })
-// Update a record with a pout
+// Update a record with a route
 router.put("/:id", async (req, res) => {
   try {
     const payload = await Model.update(
@@ -48,7 +41,7 @@ router.put("/:id", async (req, res) => {
   }
 })
 // delete a record
-router.delete("/:id", async (req, res) => {
+router.delete("/api/notes/:id", async (req, res) => {
   try {
     const payload = await Model.destroy({
       where: {
