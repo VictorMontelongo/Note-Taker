@@ -1,12 +1,12 @@
 const express = require('express');
 const router = require("express").Router();
-const Model = require("../db/db.json")
+const Model = require("../../db/db.json")
 const uuid = require("uuid");
 
 
 
 // Get one note 
-router.get("/", async (req, res) => {
+router.get("/api/notes", async (req, res) => {
   try {
     const payload = await JSON.parse(Model, "utf8");
     res.status(200).json({ status: "nice", payload })
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 })
 // Creating a new note
-router.post("/", async (req, res) => {
+router.post("/api/notes", async (req, res) => {
   const newTitle = req.body.title;
   const newNote = req.body.text;
   if (!newTitle || !newNote) {
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
 });
 
 // delete a record
-router.delete("/:id", async (req, res) => {
+router.delete("/api/notes/:id", async (req, res) => {
   try {
     const payload = await Model.destroy({
       where: {
